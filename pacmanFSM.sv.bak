@@ -1,0 +1,44 @@
+module pacmanFSM(input logic Clk, Reset, isGameOver, input [7:0] keycode,
+							output logic starton, playon, gameoveron);
+	enum logic [1:0] { starting, playgame, gameOver } State, Next_State;
+	always_ff @ (posedge Clk) begin
+		if(Reset)
+			State <= gameStart;
+		else
+			State <= Next_State;
+	end
+	always_comb begin
+		Next_State = State;
+		starton = 1'b0;
+		playon = 1'b0;
+		gameoveron = 1'b0;
+		unique case (State)
+			gameStart : begin
+				if(keycode == 8'h2c)
+					Next_State = playgame;
+			end
+			playgame : begin
+				if(isGameOver)
+					Next_State = gameOver;
+			end
+			gameOver : begin
+				if(keycode == 8'h2c)
+					Next_State = gameStart;
+			end
+			default : ;
+		endcase
+		case(State)
+			gameStart: begin
+				starton = 1'b1;
+				//gameoveron = 1'b0;
+			end
+			playgame: begin
+			//gameoveron = 1'b0;
+				playon = 1'b1;
+			end
+			gameOver:
+				gameoveron = 1'b1;
+			default : ;
+		endcase
+	end
+endmodule
