@@ -7,3 +7,4 @@ There are sprites for the pacman(3 variations: half open mouth, fully open mouth
 
 We created an animation for the pacman using FSM logic. We also have a ghost module, which uses FSM logic to move. In our color mapper module, we have logic for the pellets, collision logic between pacman and pellets and pacman and ghosts, and logic to output all of the sprites properly.
 
+Go to pacmangameplay.mp4 for a video of the gameplay!
