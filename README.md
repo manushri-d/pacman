@@ -1,1 +1,9 @@
 # pacman
+This project was made as a hardware interpretation of the popular arcade game Pacman. It utilizes the FPGA (MAX10 device) and displays the game on a VGA monitor. It requires the use of an USB keyboard, since the space input controls the game screen and the W,A,S,D outputs are taken from it to control the pacman. 
+
+The game works by first going to a start screen. If the spacebar is pressed, the game screen will output, along with the ghosts, pacman, and the pellets. If pacman touches any of the ghosts or eats all the pellets, the game will go into a game over state. Then, if the spacebar is pressed, the game will go back to the start screen.
+
+There are sprites for the pacman(3 variations: half open mouth, fully open mouth, and closed mouth), sprites for the ghost(red, pink, yellow, and blue), and sprites for the background(starting screen, game over screen, one playable screen, and one screen with the walls highlighted). The screen with the walls highlighted are not used for any display; we utilized it to easily see the pixel color of the walls. We used the MIF file generated based on the pallete of the map, and then identified purple(the color of the walls) and black(the rest of the map). We changed the MIF file to either have 0 for purple, and 1 for black. Then, in colormapper.sv, we set the rom address for this newly generated background to be a certain value depending on what keycode was pressed. Then, we set flags for heaving a leftwall, rightwall, upwall, or downwall after these rom addresses go into the rom instantiation. These flags were sent into ball.sv so that the pacman moves when the flags are on(active low).
+
+We created an animation for the pacman using FSM logic. We also have a ghost module, which uses FSM logic to move. In our color mapper module, we have logic for the pellets, collision logic between pacman and pellets and pacman and ghosts, and logic to output all of the sprites properly.
+
